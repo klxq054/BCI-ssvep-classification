@@ -69,13 +69,14 @@ class decision_making_network(object):
     
     def train(self,patterns,iterations=3000,N=0.0002):
         for i in range(iterations):
+            print(i);
             error=0.0
             for p in patterns:
                 inputs=p[0]
                 targets=p[1]
                 self.feedForward(inputs)
                 error=self.backPropagate(targets,N)
-            if i%500==0:
+            if i%5==0:
                 print('error %-.5f' % error)
     def predict(self,X):
         predictions=[]
@@ -83,10 +84,15 @@ class decision_making_network(object):
             predicitions.append(self.feedForward(p[0]))
         return predictions
     def test(self,X):
-        predictions=predict(X)
+        predictions=self.predict(X)
         correct=0
+        prediction_file=open('prediction.txt','w')
         for i in range(len(predictions)):
-            if(predictions[i]==X[i][1]):
+            prediction_file.write(','.join(predictions[i]))
+            prediction_file.write('\n')
+            if(np.argmax(predictions[i])==np.argmax(X[i][1])):
                 correct=correct+1
+        prediction_file.write('end')
+        prediction_file.close()
         return correct/len(predictions)
         
