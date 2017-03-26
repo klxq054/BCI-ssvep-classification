@@ -81,14 +81,14 @@ class decision_making_network(object):
     def predict(self,X):
         predictions=[]
         for p in X:
-            predicitions.append(self.feedForward(p[0]))
+            predictions.append(self.feedForward(p[0]))
         return predictions
     def test(self,X):
         predictions=self.predict(X)
         correct=0
         prediction_file=open('prediction.txt','w')
         for i in range(len(predictions)):
-            prediction_file.write(','.join(predictions[i]))
+            prediction_file.write(str(predictions[i]))
             prediction_file.write('\n')
             if(np.argmax(predictions[i])==np.argmax(X[i][1])):
                 correct=correct+1
